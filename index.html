@@ -1,51 +1,62 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071224">
+  <meta name="manual-version" content="2.1.0">
+  <meta name="manual-updated" content="2026-10-12T00:56:00+09:00">
   <meta name="description" content="우주론 시뮬레이터 연구 시스템: GPU 실험, 두 에이전트 해석, Codex Cloud, 결과 보관과 재현 가이드">
   <title>우주론 연구 노트 · Space Simulator</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%231f5f55'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23f9faf8'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="style.css">
-  <script defer src="app.js"></script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071224'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' transform='rotate(-35 16 16)' fill='none' stroke='%237fe0f2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e6c277'/%3E%3C/svg%3E">
+  <script>try{const t=localStorage.getItem('research.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
+  <link rel="stylesheet" href="style.css?v=2.1.0">
+  <script defer src="app.js?v=2.1.0"></script>
 </head>
 <body>
 <a class="skip" href="#main">본문으로 건너뛰기</a>
-<aside class="rail">
-  <a class="identity" href="#overview"><span class="orbit" aria-hidden="true">◉</span><span>SPACE SIMULATOR<small>연구 시스템 매뉴얼</small></span></a>
+<div class="mobile-bar"><a href="#overview">Space Simulator</a><button id="menu-toggle" type="button" aria-controls="manual-rail" aria-expanded="false">목차 열기</button></div>
+<div class="menu-backdrop" hidden></div>
+<aside class="rail" id="manual-rail" aria-label="문서 탐색">
+  <a class="identity" href="#overview"><svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="24" rx="22" ry="9" transform="rotate(-35 24 24)"/><circle cx="24" cy="24" r="4"/><circle cx="40" cy="12" r="2"/></svg><span>Space Simulator<small>우주론 연구 노트</small></span></a>
+  <button id="menu-close" type="button">목차 닫기</button>
   <label class="search-label" for="search">문서 검색</label>
   <input id="search" type="search" placeholder="실행, 보관, 오류…" autocomplete="off">
   <p id="search-status" class="visually-hidden" aria-live="polite"></p>
   <nav aria-label="매뉴얼 목차">
-    <a href="#overview">01 <span>연구실 한눈에 보기</span></a>
-    <a href="#start">02 <span>시작하기</span></a>
-    <a href="#workflow">03 <span>자동 연구 흐름</span></a>
-    <a href="#gpu">04 <span>GPU 실험 실행</span></a>
-    <a href="#interpret">05 <span>해석과 문헌 조사</span></a>
-    <a href="#storage">06 <span>저장과 Drive 보관</span></a>
-    <a href="#cloud">07 <span>Codex Cloud 연결</span></a>
-    <a href="#science">08 <span>결과를 읽는 기준</span></a>
-    <a href="#recovery">09 <span>중단과 복구</span></a>
-    <a href="#git">10 <span>GitHub와 재현</span></a>
+    <a href="#overview">1장 <span>연구실 한눈에 보기</span></a>
+    <a href="#start">2장 <span>시작하기</span></a>
+    <a href="#workflow">3장 <span>자동 연구 흐름</span></a>
+    <a href="#gpu">4장 <span>GPU 실험 실행</span></a>
+    <a href="#interpret">5장 <span>해석과 문헌 조사</span></a>
+    <a href="#storage">6장 <span>저장과 Drive 보관</span></a>
+    <a href="#cloud">7장 <span>Codex Cloud 연결</span></a>
+    <a href="#science">8장 <span>결과를 읽는 기준</span></a>
+    <a href="#recovery">9장 <span>중단과 복구</span></a>
+    <a href="#git">10장 <span>GitHub와 재현</span></a>
   </nav>
-  <div class="rail-bottom"><a href="https://github.com/whdPsk/Space_Simulator">코드 저장소 ↗</a><span>비공개 저장소 · 권한 필요</span><button id="theme" type="button">화면 테마 전환</button></div>
+  <div class="rail-bottom"><a class="rail-version" href="#release">매뉴얼 <strong data-manual-version>v2.1.0</strong><span>변경 기록 보기</span></a><button id="theme" type="button">밝은 화면으로</button><a href="https://github.com/whdPsk/Space_Simulator">코드 저장소 <span aria-hidden="true">↗</span></a><small>비공개 저장소 · 권한 필요</small></div>
 </aside>
 <main id="main">
-  <header class="topbar"><span>RESEARCH HANDBOOK / v2</span><span>2026.10 · 운영 가이드</span></header>
+  <header class="topbar"><span>연구 시스템 매뉴얼 <a href="#release" data-manual-version>v2.1.0</a></span><span>최근 업데이트 <time data-manual-updated datetime="2026-10-12T00:56:00+09:00">2026.10.12 00:56 KST</time></span></header>
   <section id="overview" class="chapter">
-    <div class="eyebrow">질문에서 실험으로, 결과에서 다음 질문으로</div>
-    <h1>우주론 연구 노트<span>Space Simulator</span></h1>
-    <p class="lead">암흑물질이 파동처럼 행동하면 어떤 우주가 만들어질까?<br>로컬 GPU와 두 AI 에이전트로 실험하고, 근거를 남기며 해석하는 연구 시스템.</p>
-    <div class="pills"><span>Windows GPU</span><span>Claude Code + Codex</span><span>GitHub · Drive</span></div>
-    <div class="cards">
-      <a class="card" href="#gpu"><b class="card-icon">01</b><h2>실험 실행</h2><p>작은 검증부터 256³ 공간 검사와 독립 시간 검사까지.</p><span>GPU 실행 가이드 →</span></a>
-      <a class="card" href="#interpret"><b class="card-icon">02</b><h2>결과 이해</h2><p>수치 근거, 물리적 가설, 직관적 비유를 구분해 읽기.</p><span>분석과 해석 가이드 →</span></a>
-      <a class="card" href="#storage"><b class="card-icon">03</b><h2>기록 찾기</h2><p>원자료·그림·해석·소스와 보관 확인 기록의 위치.</p><span>저장 구조 확인 →</span></a>
+    <div class="hero-layout">
+      <div class="hero-copy"><p class="hero-kicker">계산으로 탐구하는 우주</p><h1>우주론<br>연구 노트</h1><p class="lead">암흑물질이 파동처럼 행동하면<br>어떤 우주가 만들어질까?</p><p class="hero-description">질문을 실험으로, 결과를 다음 질문으로. GPU와 두 AI 에이전트로 탐구하며 근거를 남기는 연구실의 사용 안내서.</p><a class="primary-link" href="#start">연구 시작하기 <span aria-hidden="true">↗</span></a></div>
+      <figure class="hero-figure">
+        <div class="cosmos-stage"><svg class="cosmos-fallback" viewBox="0 0 560 450" aria-hidden="true"><g fill="none" stroke="currentColor" opacity=".5"><path d="M80 210 190 90 320 130 460 70 420 260 280 350 180 270 80 210 290 230 320 130M190 90 290 230 420 260M180 270 190 90M280 350 290 230 460 70"/></g><g fill="currentColor"><circle cx="80" cy="210" r="4"/><circle cx="190" cy="90" r="6"/><circle cx="320" cy="130" r="4"/><circle cx="460" cy="70" r="3"/><circle cx="420" cy="260" r="6"/><circle cx="280" cy="350" r="4"/><circle cx="180" cy="270" r="4"/><circle cx="290" cy="230" r="7"/></g></svg><canvas id="cosmos" aria-hidden="true"></canvas></div>
+        <div class="cosmos-controls" hidden><div class="view-switch" role="group" aria-label="우주 구조 그림 보기 방식"><button type="button" data-view="particles" aria-pressed="true">입자</button><button type="button" data-view="wave" aria-pressed="false">파동</button></div><button type="button" id="motion">움직임 멈춤</button></div>
+        <figcaption><span id="cosmos-caption">작은 점들이 이어져 이루는 거대한 구조.</span><small>개념 시각화 · 시뮬레이션 결과가 아닙니다.</small></figcaption>
+      </figure>
     </div>
-    <div class="note"><strong>이 사이트는 사용 매뉴얼입니다.</strong> 실시간 작업 화면이 아닙니다. 실행 여부는 각 작업 폴더의 로그와 결과 JSON을 확인하세요. 연구 원자료와 계정 설정은 이 공개 사이트에 포함하지 않습니다.</div>
+    <div class="entry-links" aria-label="빠른 안내">
+      <a href="#gpu"><span class="entry-title">실험 실행</span><span class="entry-description">검증부터 공간·시간 실험까지</span><span class="entry-chapter">4장 <span aria-hidden="true">↗</span></span></a>
+      <a href="#interpret"><span class="entry-title">결과 이해</span><span class="entry-description">수치 근거와 물리적 해석 읽기</span><span class="entry-chapter">5장 <span aria-hidden="true">↗</span></span></a>
+      <a href="#storage"><span class="entry-title">기록 찾기</span><span class="entry-description">원자료·그림·보고서의 위치</span><span class="entry-chapter">6장 <span aria-hidden="true">↗</span></span></a>
+    </div>
+    <p class="manual-notice">이곳은 연구 시스템 사용 매뉴얼입니다. 실행 상태는 각 작업의 로그와 결과에서 확인하세요.</p>
   </section>
   <section id="start" class="chapter">
-    <div class="section-label">02 / GET STARTED</div><h2>시작하기</h2>
+    <div class="section-label">2장</div><h2>시작하기</h2>
     <p>Windows PowerShell에서 저장소 루트로 이동합니다. 계산은 Windows의 Python 가상환경에서, Claude Code만 WSL에서 실행합니다.</p>
     <pre><code>git clone https://github.com/whdPsk/Space_Simulator.git
 cd Space_Simulator
@@ -64,7 +75,7 @@ python -m venv .venv
     <p><code>config.local.json</code>은 Git에서 제외합니다. CLI 경로·환경 ID만 넣고 인증 토큰이나 API 키를 저장하지 않습니다. Claude는 구독 로그인만 사용하며 API 과금 방식으로 자동 전환하지 않습니다.</p>
   </section>
   <section id="workflow" class="chapter">
-    <div class="section-label">03 / RESEARCH LOOP</div><h2>자동 연구 흐름</h2>
+    <div class="section-label">3장</div><h2>자동 연구 흐름</h2>
     <ol class="flow">
       <li><strong>설계 고정</strong><span>질문 · 모델 · 씨앗 · 격자 · 계산 예산</span></li>
       <li><strong>GPU 검증과 계산</strong><span>16³ smoke → 256³ smoke → 공간·시간 본런</span></li>
@@ -77,7 +88,7 @@ python -m venv .venv
     <details><summary>Claude Cowork와 Codex Cloud는 어디에 쓰나요?</summary><p>Claude Code는 문헌 조사와 구조화된 해석을 수행합니다. Cowork에서는 보관된 보고서를 열어 연구 노트·발표 자료를 정리할 수 있습니다. Cowork 대화 메모리가 CLI로 자동 공유되지는 않습니다. Codex Cloud는 GitHub 소스를 읽고 CPU 검증·검토를 수행하는 별도 작업 환경입니다. 노트북 GPU 계산을 Cloud로 옮기는 기능은 아닙니다.</p></details>
   </section>
   <section id="gpu" class="chapter">
-    <div class="section-label">04 / GPU EXPERIMENTS</div><h2>GPU 실험 실행</h2>
+    <div class="section-label">4장</div><h2>GPU 실험 실행</h2>
     <p>현재 실행 정책은 <strong>8 Mpc/h · seed 12 · m22=0.1</strong>의 CDM 씨앗 비교입니다. 192³ 기준 결과의 정확한 소스 바이트를 확인하고 256³ 공간 실험 및 양 격자의 시간 세분화 실험을 이어서 실행합니다.</p>
     <pre><code># 실행 계획만 확인 — 계산을 시작하지 않음
 .\.venv\Scripts\python.exe -m automation.campaign
@@ -95,7 +106,7 @@ python -m venv .venv
     <div class="note">코드 또는 기존 기준 결과가 바뀌면 계산을 멈춥니다. 물리 코드를 수정한 뒤에는 새 기준 실험과 대조 실험을 같은 소스로 다시 실행해야 합니다.</div>
   </section>
   <section id="interpret" class="chapter">
-    <div class="section-label">05 / INTERPRETATION</div><h2>해석과 문헌 조사</h2>
+    <div class="section-label">5장</div><h2>해석과 문헌 조사</h2>
     <p>외부 AI 전송을 승인한 분석에서 <code>local</code> 모드를 선택하면, 작은 수치 요약과 근거 ID를 Claude Code에 보내 논문 조사와 해석을 요청합니다. Codex가 수치·문헌·가설·비유를 검토하고, 필요한 경우 최대 두 번 수정합니다.</p>
     <pre><code># 이미 만들어진 suite_summary.json을 해석
 .\.venv\Scripts\python.exe -m automation.research "outputs\campaigns\작업ID\analysis\suite_summary.json" --mode local --max-revisions 2 --config automation/config.local.json</code></pre>
@@ -110,7 +121,7 @@ python -m venv .venv
     <p><strong>accept는 해석 초안의 검토 통과입니다.</strong> 물리적 수렴이나 관측 예측의 검증 완료를 뜻하지 않습니다. 수정 예산을 다 쓰면 <code>revision_required</code>를 남기고 멈춥니다.</p>
   </section>
   <section id="storage" class="chapter">
-    <div class="section-label">06 / STORAGE & ARCHIVE</div><h2>결과는 어디에 저장되나요?</h2>
+    <div class="section-label">6장</div><h2>결과는 어디에 저장되나요?</h2>
     <pre class="tree"><code>Space_Simulator/
 ├─ simulation_real/          물리 계산 소스
 ├─ automation/               실행·해석·Cloud·보관 제어기
@@ -137,7 +148,7 @@ python -m venv .venv
     <p>Drive 앱이 오프라인이거나 동기화가 멈추면 업로드는 대기합니다. 서버 검증은 별도 API 메타데이터 확인 단계이며 로컬 복사만으로 완료라고 표시하지 않습니다. 중단된 <code>.partial</code> 파일은 완료본으로 사용하지 말고 새 보관 실행을 생성하세요.</p>
   </section>
   <section id="cloud" class="chapter">
-    <div class="section-label">07 / CODEX CLOUD</div><h2>Codex Cloud 연결</h2>
+    <div class="section-label">7장</div><h2>Codex Cloud 연결</h2>
     <p>앱의 게시된 Cloud 환경과 CLI가 표시하는 환경 목록을 먼저 구분합니다. 앱에서는 해당 환경을 선택해 작업하고, 시작할 때 실제 Git 커밋을 확인합니다. Publish 완료만으로 기존 작업이 최신 소스로 바뀌거나 CLI 자동화에 연결됐다고 판단하지 않습니다.</p>
     <div class="note"><strong>CLI를 연결하려면</strong> <code>codex cloud</code>의 환경 선택 목록에 대상 저장소가 있는지 확인하세요. 그 목록의 ID를 <code>codex_cloud_environment_id</code>에 기록합니다. 앱의 작업 딥링크(<code>codex://threads/…</code>)나 실행 인스턴스 ID를 대신 넣지 않습니다. 대상이 없으면 아래 CLI 명령을 실행하지 말고 앱 환경과의 호환성을 확인하세요.</div>
     <pre><code># 현재 원격 main 커밋을 CPU 테스트하는 Cloud 작업 제출
@@ -150,7 +161,7 @@ python -m venv .venv
     <p><a href="https://learn.chatgpt.com/docs/environments/cloud-environments">Cloud 환경 공식 안내 ↗</a> · <a href="https://learn.chatgpt.com/docs/cli/reference">CLI 명령 참고 ↗</a></p>
   </section>
   <section id="science" class="chapter">
-    <div class="section-label">08 / READING THE EVIDENCE</div><h2>결과를 읽는 기준</h2>
+    <div class="section-label">8장</div><h2>결과를 읽는 기준</h2>
     <div class="table-wrap"><table><thead><tr><th>검사</th><th>기준과 의미</th></tr></thead><tbody>
       <tr><td>질량·위상</td><td>질량 상대오차 10⁻⁸ 이내, 위상 상한 준수. 오류 검출용이며 파워 정확도 보장은 아닙니다.</td></tr>
       <tr><td>초기 표현</td><td>각 격자 안의 초기 |Pwave/Pcold − 1| ≤ 5%. 두 초기 상태가 같은지 보는 기준과 다릅니다.</td></tr>
@@ -165,7 +176,7 @@ python -m venv .venv
     <p>공개 논문은 방법과 가설을 검토하는 자료입니다. 논문의 결론을 이번 계산의 검증 결과로 대신 사용하지 않습니다.</p>
   </section>
   <section id="recovery" class="chapter">
-    <div class="section-label">09 / RECOVERY</div><h2>중단과 복구</h2>
+    <div class="section-label">9장</div><h2>중단과 복구</h2>
     <details open><summary>계산을 멈추려면</summary><p>실행한 터미널에서 Ctrl+C를 누릅니다. 제어기는 실행 중인 자식 계산을 종료하고 실패 기록을 남깁니다. 이미 완료된 실험과 보관본은 유지합니다. 전체 ψ 체크포인트가 없어 진행 중이던 실험은 새 폴더에서 처음부터 다시 실행해야 합니다.</p></details>
     <details><summary>GPU 메모리 부족 / 시간 초과</summary><p>작업 폴더의 해당 실험 <code>.log</code>와 <code>failure.json</code>을 확인합니다. 자동으로 정밀도·phase cap·격자를 바꾸지 않습니다. 다른 GPU 작업을 종료한 뒤 예산을 검토하고 다시 실행하세요. 두 제어기를 동시에 실행하면 GPU 잠금으로 한쪽을 중단합니다.</p></details>
     <details><summary>Claude 로그인 또는 구독 한도 오류</summary><p>WSL에서 <code>claude</code>를 열어 로그인 상태를 복구합니다. API 키 과금으로 우회하지 않습니다. 성공한 초안이 있으면 동일 근거에 대해 <code>--resume-draft &lt;이전 분석 폴더&gt;</code>로 재사용할 수 있습니다. 다른 결과의 초안을 재사용하면 해시 검사에서 거부합니다.</p></details>
@@ -175,7 +186,7 @@ python -m venv .venv
     <details><summary>다음 실험에 384³가 제안된 경우</summary><p>현재 실행기는 256³까지입니다. 제안된 384³는 자동 실행되지 않으며 8GB GPU에 맞는다고 가정하지 않습니다. 메모리·시간·저장 예산을 별도로 검토하고 초기 상태와 대조 실험을 설계한 뒤 실행 정책을 확장해야 합니다.</p></details>
   </section>
   <section id="git" class="chapter">
-    <div class="section-label">10 / VERSIONING</div><h2>GitHub와 재현</h2>
+    <div class="section-label">10장</div><h2>GitHub와 재현</h2>
     <p>소스·테스트·사용 문서는 GitHub, 대용량 연구 결과는 로컬과 Drive에 보관합니다. GitHub Actions는 push마다 CPU 제어기 테스트를 실행합니다. 매뉴얼은 별도 공개 저장소 <code>Space_Simulator_Manual</code>에 게시하도록 구성했습니다. 공개 저장소 생성 승인 후 <code>python -m automation.publish_manual --publish</code>가 site의 HTML·CSS·JS·.nojekyll 네 파일만 올리고, 해당 저장소의 main 루트를 GitHub Pages가 자동 배포합니다.</p>
     <pre><code># 변경 내용을 먼저 확인하고, 의도한 파일만 추가
 git status --short
@@ -187,8 +198,14 @@ git push origin main</code></pre>
     <div class="checklist"><h3>연구 한 회차를 마칠 때</h3><ul><li>완료 매니페스트와 소스·원자료 체크섬이 있는가?</li><li>수치 판정과 AI 검토 판정을 구분했는가?</li><li>그림·해석·다음 실험안의 위치를 남겼는가?</li><li>Drive 원격 보관 여부를 실제로 확인했는가?</li><li>코드 커밋과 실행 시점의 차이를 기록했는가?</li></ul></div>
     <p><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages">GitHub Pages 공식 안내 ↗</a></p>
   </section>
-  <p id="no-results" hidden>일치하는 문서가 없습니다. 다른 검색어를 입력해 주세요.</p>
-  <footer>Space Simulator · 연구 시스템 매뉴얼<span>근거를 보존하고, 주장의 범위를 분명하게.</span><button id="print" type="button">인쇄 / PDF 저장</button></footer>
+  <section id="release" class="chapter release-notes">
+    <div class="section-label">문서 이력</div><h2>업데이트 기록</h2>
+    <p>이 버전은 웹 매뉴얼의 버전입니다. 시뮬레이터 코드와 실험 결과는 각자의 커밋·태그·매니페스트를 기준으로 확인합니다.</p>
+    <article class="release-entry"><div><strong data-manual-version>v2.1.0</strong><time data-manual-updated datetime="2026-10-12T00:56:00+09:00">2026.10.12 00:56 KST</time></div><ul><li>관측 일지에서 착안한 디자인과 입자·파동 개념 시각화</li><li>매뉴얼 버전과 한국시간 기준 최근 업데이트 일시 표시</li><li>모바일 목차, 문서 검색, 명령 복사, 밝은 테마와 인쇄 화면 개선</li></ul></article>
+    <p class="release-method">최근 업데이트는 페이지를 연 시각이 아니라 이 릴리스의 문서 갱신 시각입니다.</p>
+  </section>
+  <div id="no-results" hidden><h2>일치하는 문서가 없습니다.</h2><p>다른 검색어를 입력하거나 전체 목차를 열어 보세요.</p><button type="button" id="clear-search">검색 지우기</button></div>
+  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.1.0</span><button id="print" type="button">인쇄 / PDF 저장</button></div></footer>
 </main>
 </body>
 </html>
