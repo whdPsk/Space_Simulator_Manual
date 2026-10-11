@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071224">
-  <meta name="manual-version" content="2.2.0">
-  <meta name="manual-updated" content="2026-10-12T02:27:00+09:00">
+  <meta name="manual-version" content="2.3.0">
+  <meta name="manual-updated" content="2026-10-12T03:26:00+09:00">
   <meta name="description" content="우주론 시뮬레이터 연구 시스템: GPU 실험, 두 에이전트 해석, Codex Cloud, 결과 보관과 재현 가이드">
   <title>Cosmology Research Notes · Space Simulator</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071224'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' transform='rotate(-35 16 16)' fill='none' stroke='%237fe0f2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e6c277'/%3E%3C/svg%3E">
   <script>try{const t=localStorage.getItem('research.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
-  <link rel="stylesheet" href="style.css?v=2.2.0">
-  <script defer src="app.js?v=2.2.0"></script>
+  <link rel="stylesheet" href="style.css?v=2.3.0">
+  <script defer src="app.js?v=2.3.0"></script>
 </head>
 <body>
 <a class="skip" href="#main" lang="en">Skip to Content</a>
@@ -35,10 +35,10 @@
     <a href="#recovery">09 <span>Troubleshooting</span></a>
     <a href="#git">10 <span>Reproducibility</span></a>
   </nav>
-  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.2.0</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
+  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.3.0</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
 </aside>
 <main id="main">
-  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.2.0</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T02:27:00+09:00">2026.10.12 02:27 KST</time></span></header>
+  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.3.0</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T03:26:00+09:00">2026.10.12 03:26 KST</time></span></header>
   <section id="overview" class="chapter">
     <div class="hero-layout">
       <div class="hero-copy"><p class="hero-kicker">Exploring the Universe through Computation</p><h1 lang="en">Cosmology<br>Research Notes</h1><p class="lead">암흑물질이 파동처럼 행동하면<br>어떤 우주가 만들어질까?</p><p class="hero-description">질문을 실험으로, 결과를 다음 질문으로. GPU와 두 AI 에이전트로 탐구하며 근거를 남기는 연구실의 사용 안내서.</p><a class="primary-link" href="#start">Start Exploring <span aria-hidden="true">↗</span></a></div>
@@ -57,7 +57,7 @@
   </section>
   <section id="start" class="chapter">
     <div class="section-label">Chapter 02</div><h2 lang="en">Getting Started</h2>
-    <div class="note" id="mission-control"><strong lang="en">Mission Control · Start to Launch</strong><p>저장소의 <code>Start-ResearchConsole.ps1</code>을 PowerShell로 실행한 뒤 아래 버튼으로 콘솔을 엽니다. 완료된 근거에서 실험 설계와 대기열을 자동 생성하고, <strong>Start experiment</strong>를 눌렀을 때 한 실험의 검증·GPU 계산·분석을 진행합니다.</p><a class="primary-link" href="http://127.0.0.1:8767/" target="_blank" rel="noopener" lang="en">Open Research Console ↗</a><p>이 주소는 GPU가 있는 현재 PC 전용입니다. 콘솔이 열리지 않으면 실행 스크립트를 먼저 시작하세요. 다른 기기의 localhost로는 이 PC에 접속할 수 없습니다.</p></div>
+    <div class="note" id="mission-control"><strong lang="en">Mission Control · Start to Launch</strong><p>GPU 노트북에서 <code>Start-RemoteResearch.ps1</code>을 PowerShell로 실행한 뒤, 휴대폰이나 다른 PC에서도 아래 주소로 접속합니다. <code>Show-ResearchLogin.ps1</code>에서 확인한 전용 키로 로그인하세요. Cloudflare 비밀번호와는 별개입니다.</p><a class="primary-link" href="https://cosmos.whdpsk.workers.dev/start" target="_blank" rel="noopener" lang="en">Open Research Console ↗</a><p><strong>cosmos.whdpsk.workers.dev/start</strong> · 매뉴얼은 같은 주소의 <strong>/manual</strong>입니다. 설계·대기열은 자동으로 준비하고 <strong>Start experiment</strong>를 눌러야 한 실험의 검증·GPU 계산·분석을 진행합니다. 노트북이 켜져 있고 연결 프로그램이 실행 중이어야 합니다. 재부팅 후에는 다시 실행하세요.</p><p>결과·보고서는 비공개 Drive의 <code>Research_Archive/outputs</code>에 저장합니다. 원격 사이트에는 간단한 제어 상태만 전송합니다. 노트북에서만 접속할 때는 <code>Start-ResearchConsole.ps1</code> → <a href="http://127.0.0.1:8767/">Local Console</a>도 사용할 수 있습니다.</p></div>
     <pre><code># 스크립트 대신 터미널에서 콘솔 시작
 .\.venv\Scripts\python.exe -X utf8 -m automation.console</code></pre>
     <p>Windows PowerShell에서 저장소 루트로 이동합니다. 계산은 Windows의 Python 가상환경에서, Claude Code만 WSL에서 실행합니다.</p>
@@ -306,7 +306,7 @@ python -m venv .venv
     <details><summary lang="en">Published Cloud Environment Missing from CLI</summary><p>앱 환경의 게시 여부와 CLI 환경 목록은 별도로 확인합니다. 다른 저장소의 환경 ID나 앱 작업 ID를 대신 쓰지 마세요. 앱에서 작업할 때도 실제 commit과 필요한 코드가 있는지 확인한 뒤 테스트합니다. 새 작업이 최신 소스를 사용하는지는 실행 시 확인해야 합니다.</p></details>
     <details><summary lang="en">Codex Cloud: Git / Proxy Connection Failure</summary><p><code>Repository is not accessible</code>이면 GitHub 연결의 저장소 권한을 확인합니다. <code>Failed to connect to proxy port 8080</code>이면 Cloud 내부 프록시 연결 문제이므로 인증 실패로 단정하지 않습니다. 지원되는 환경 복구 경로를 사용하고 프록시·TLS·인증 설정을 우회하지 마세요. 제출 응답이 불명확하면 먼저 <code>codex cloud list --json</code>로 중복 작업 여부를 확인합니다.</p></details>
     <details><summary lang="en">Drive Upload Pending Verification</summary><p>Drive 폴더 저장은 동기화 시작이지 서버 업로드 완료 증명이 아닙니다. Drive 앱 상태를 확인하세요. 이전 도구는 원격 복구 ZIP 내용이 검증되기 전에는 원본을 지우지 않습니다. Drive 연결이 없으면 콘솔 Start는 차단됩니다. 인터넷 단절 시 Drive 캐시의 업로드가 대기할 수 있습니다.</p></details>
-    <details><summary lang="en">Console Offline / Interrupted Mission</summary><p><code>Start-ResearchConsole.ps1</code>로 콘솔을 열거나 터미널에서 <code>python -m automation.console</code>을 실행하세요. 실패한 작업은 같은 plan ID로 자동 재시도하지 않습니다. <code>.research_state/jobs/작업ID/worker.log</code>와 결과 폴더의 <code>failure.json</code>을 확인하고 원인·재실행 범위를 검토하세요. Notion 기록은 별도 단계입니다.</p></details>
+    <details><summary lang="en">Console Offline / Interrupted Mission</summary><p>원격 접속은 노트북에서 <code>Start-RemoteResearch.ps1</code>을 실행하세요. 45초 이상 연결 신호가 없으면 Start가 비활성화됩니다. 요청은 90초 안에 한 번 전달하고 자동 재전송하지 않습니다. 로컬 접속은 <code>Start-ResearchConsole.ps1</code> 또는 <code>python -m automation.console</code>을 사용하세요. 실패한 작업은 같은 plan ID로 자동 재시도하지 않습니다. <code>.research_state/jobs/작업ID/worker.log</code>와 결과 폴더의 <code>failure.json</code>을 확인하고 원인·재실행 범위를 검토하세요. Notion 기록은 별도 단계입니다.</p></details>
     <details><summary lang="en">Proposed 384³ Experiments</summary><p>현재 실행기는 256³까지입니다. 제안된 384³는 자동 실행되지 않으며 8GB GPU에 맞는다고 가정하지 않습니다. 메모리·시간·저장 예산을 별도로 검토하고 초기 상태와 대조 실험을 설계한 뒤 실행 정책을 확장해야 합니다.</p></details>
   </section>
   <section id="git" class="chapter">
@@ -325,14 +325,15 @@ git push origin main</code></pre>
   <section id="release" class="chapter release-notes">
     <div class="section-label">Document History</div><h2 lang="en">Release Notes</h2>
     <p>이 버전은 웹 매뉴얼의 버전입니다. 시뮬레이터 코드와 실험 결과는 각자의 commit·tag·manifest를 기준으로 확인합니다.</p>
-    <article class="release-entry"><div><strong data-manual-version>v2.2.0</strong><time data-manual-updated datetime="2026-10-12T02:27:00+09:00">2026.10.12 02:27 KST</time></div><ul><li>Mission Control: 자동 실험 대기열과 사용자 Start 버튼</li><li>Drive 직접 저장·검증 후 기존 결과 이전 절차 안내</li><li>현재 실행 정책에 맞춘 Agent Collaboration Map과 복구 안내 갱신</li></ul></article>
+    <article class="release-entry"><div><strong data-manual-version>v2.3.0</strong><time data-manual-updated datetime="2026-10-12T03:26:00+09:00">2026.10.12 03:26 KST</time></div><ul><li>Cosmos: 짧은 /manual · /start 주소와 휴대폰 접속</li><li>전용 키 로그인, 노트북 연결 상태와 일회 Start 요청</li><li>기존 결과 1481개 원격 복구 ZIP 검증 후 Drive 이전 완료</li><li>원자료·보고서는 Drive, 제어 상태만 원격 콘솔에 표시</li></ul></article>
+    <article class="release-entry"><div><strong>v2.2.0</strong><time datetime="2026-10-12T02:27:00+09:00">2026.10.12 02:27 KST</time></div><ul><li>Mission Control: 자동 실험 대기열과 사용자 Start 버튼</li><li>Drive 직접 저장·검증 후 기존 결과 이전 절차 안내</li><li>현재 실행 정책에 맞춘 Agent Collaboration Map과 복구 안내 갱신</li></ul></article>
     <article class="release-entry"><div><strong>v2.1.2</strong><time datetime="2026-10-12T01:23:00+09:00">2026.10.12 01:23 KST</time></div><ul><li>현재 구현 기준 Agent Collaboration Map 추가</li><li>Claude–Codex 수정 루프, GPU 계산, Drive 보관과 별도 Cloud 경로 시각화</li><li>테마에 맞는 SVG 다운로드, 모바일 가로 탐색과 인쇄 지원</li></ul></article>
     <article class="release-entry"><div><strong>v2.1.1</strong><time datetime="2026-10-12T01:11:00+09:00">2026.10.12 01:11 KST</time></div><ul><li>메뉴·제목·버튼·표 항목을 영어 표기로 통일하고 한국어 설명문 유지</li><li>seed, grid, checkpoint, power spectrum 등 기술 용어 표기 정리</li><li>한국어·영어 기술 용어 검색 지원 및 긴 영어 제목의 모바일 배치 조정</li></ul></article>
     <article class="release-entry"><div><strong>v2.1.0</strong><time datetime="2026-10-12T00:56:00+09:00">2026.10.12 00:56 KST</time></div><ul><li>관측 일지에서 착안한 디자인과 입자·파동 개념 시각화</li><li>매뉴얼 버전과 한국시간 기준 최근 업데이트 일시 표시</li><li>모바일 목차, 문서 검색, 명령 복사, 밝은 테마와 인쇄 화면 개선</li></ul></article>
     <p class="release-method">Last Updated는 페이지를 연 시각이 아니라 이 릴리스의 문서 갱신 시각입니다.</p>
   </section>
   <div id="no-results" hidden><h2 lang="en">No Results Found</h2><p>다른 검색어를 입력하거나 전체 목차를 열어 보세요.</p><button type="button" id="clear-search">Clear Search</button></div>
-  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.2.0</span><button id="print" type="button">Print / Save PDF</button></div></footer>
+  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.3.0</span><button id="print" type="button">Print / Save PDF</button></div></footer>
 </main>
 </body>
 </html>
