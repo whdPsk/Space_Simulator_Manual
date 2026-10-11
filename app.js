@@ -6,7 +6,7 @@
   let redraw = () => {};
   const setTheme = value => {
     root.dataset.theme = value === 'light' ? 'light' : 'dark';
-    themeButton.textContent = root.dataset.theme === 'dark' ? '밝은 화면으로' : '어두운 화면으로';
+    themeButton.textContent = root.dataset.theme === 'dark' ? 'Light Mode' : 'Dark Mode';
     document.querySelector('meta[name="theme-color"]').content = root.dataset.theme === 'dark' ? '#071224' : '#f2f5fa';
     redraw();
   };
@@ -16,9 +16,21 @@
     try { localStorage.setItem('research.theme', root.dataset.theme); } catch (_) {}
   });
 
+  // Canonical terms preserve Korean search when headings and terms use English.
+  const searchTerms = [
+    [/체크포인트/g, 'checkpoint'], [/체크섬/g, 'checksum'], [/매니페스트/g, 'manifest'],
+    [/파워 스펙트럼/g, 'power spectrum'], [/파워/g, 'power'], [/씨앗|시드/g, 'seed'],
+    [/격자/g, 'grid'], [/커밋/g, 'commit'], [/태그/g, 'tag'], [/해시/g, 'hash'],
+    [/공간 민감도/g, 'spatial sensitivity'], [/시간 민감도/g, 'temporal sensitivity'],
+    [/고주파 점유/g, 'high-k occupancy'], [/초기 표현/g, 'initial representation'],
+    [/문헌/g, 'literature'], [/해석/g, 'interpretation'], [/저장|보관/g, 'archive'],
+    [/복구/g, 'troubleshooting'],
+    [/입자/g, 'particles'], [/파동/g, 'wave'],
+  ];
+  const normalizeSearch = text => searchTerms.reduce((value, [pattern, term]) => value.replace(pattern, term), text.toLocaleLowerCase());
   const chapters = [...document.querySelectorAll('.chapter')];
-  const searchIndex = new Map(chapters.map(section => [section, section.textContent.toLocaleLowerCase()]));
-  const detailsIndex = new Map([...document.querySelectorAll('details')].map(detail => [detail, detail.textContent.toLocaleLowerCase()]));
+  const searchIndex = new Map(chapters.map(section => [section, normalizeSearch(section.textContent)]));
+  const detailsIndex = new Map([...document.querySelectorAll('details')].map(detail => [detail, normalizeSearch(detail.textContent)]));
   const search = $('#search');
   const rail = $('#manual-rail'), menu = $('#menu-toggle'), backdrop = $('.menu-backdrop');
   const mobile = matchMedia('(max-width: 900px)');
@@ -46,7 +58,7 @@
 
   const detailsBeforeSearch = new Map();
   function searchDocs() {
-    const q = search.value.trim().toLocaleLowerCase(); let count = 0;
+    const q = normalizeSearch(search.value.trim()); let count = 0;
     chapters.forEach(section => {
       section.hidden = !!q && !searchIndex.get(section).includes(q);
       if (!section.hidden) count++;
@@ -60,7 +72,7 @@
       }
     });
     $('#no-results').hidden = count > 0;
-    $('#search-status').textContent = q ? count + '개 문서 섹션에서 찾았습니다.' : '전체 문서';
+    $('#search-status').textContent = q ? count + ' sections found.' : 'All sections';
   }
   search.addEventListener('input', searchDocs);
   $('#clear-search').addEventListener('click', () => {
@@ -93,26 +105,26 @@
   });
 
   const copyStatus = document.createElement('div');
-  copyStatus.className = 'visually-hidden'; copyStatus.setAttribute('role', 'status');
+  copyStatus.className = 'visually-hidden'; copyStatus.lang = 'en'; copyStatus.setAttribute('role', 'status');
   copyStatus.setAttribute('aria-live', 'polite'); document.body.append(copyStatus);
   document.querySelectorAll('pre').forEach(pre => {
     pre.tabIndex = 0; pre.setAttribute('role','region');
-    pre.setAttribute('aria-label', pre.classList.contains('tree') ? '저장 폴더 구조' : '복사 가능한 명령어');
+    pre.setAttribute('aria-label', pre.classList.contains('tree') ? 'Directory Structure' : 'Copyable Commands');
     if(pre.classList.contains('tree'))return;
     const wrapper=document.createElement('div');wrapper.className='code-block';
-    const toolbar=document.createElement('div');toolbar.className='code-toolbar';
-    const label=document.createElement('span');label.textContent='명령어';toolbar.append(label);
+    const toolbar=document.createElement('div');toolbar.className='code-toolbar';toolbar.lang='en';
+    const label=document.createElement('span');label.textContent='Commands';toolbar.append(label);
     pre.before(wrapper);wrapper.append(toolbar,pre);
-    const b=document.createElement('button');b.type='button';b.className='copy';b.textContent='명령 복사';
+    const b=document.createElement('button');b.type='button';b.className='copy';b.textContent='Copy Commands';
     b.addEventListener('click',async()=>{
       copyStatus.textContent='';
-      try{await navigator.clipboard.writeText(pre.querySelector('code').textContent);b.textContent='복사됨';copyStatus.textContent='명령어를 복사했습니다.';}
-      catch(_){b.textContent='직접 선택해 복사하세요';copyStatus.textContent='복사하지 못했습니다. 명령어를 직접 선택해 복사하세요.';}
-      setTimeout(()=>b.textContent='명령 복사',2200);
+      try{await navigator.clipboard.writeText(pre.querySelector('code').textContent);b.textContent='Copied';copyStatus.textContent='Commands copied.';}
+      catch(_){b.textContent='Select to Copy';copyStatus.textContent='Copy failed. Select and copy the commands manually.';}
+      setTimeout(()=>b.textContent='Copy Commands',2200);
     });toolbar.append(b);
   });
   document.querySelectorAll('.table-wrap').forEach((table,i)=>{
-    table.tabIndex=0;table.setAttribute('role','region');table.setAttribute('aria-label','표 '+(i+1)+' · 좁은 화면에서 가로로 스크롤');
+    table.tabIndex=0;table.setAttribute('role','region');table.setAttribute('aria-label','Table '+(i+1)+' · Scroll horizontally on narrow screens');
   });
   if('IntersectionObserver' in window){
     const observer=new IntersectionObserver(entries=>{
@@ -181,7 +193,7 @@
   const glow=document.createElement('canvas');glow.width=40;glow.height=40;
   const gc=glow.getContext('2d'),projected=new Float32Array(count*3);
   const motion=$('#motion');
-  function motionLabel(){motion.textContent=paused?'움직임 재생':'움직임 멈춤';}
+  function motionLabel(){motion.textContent=paused?'Play Motion':'Pause Motion';}
   motionLabel();
   function palette(){const s=getComputedStyle(root);return {cyan:s.getPropertyValue('--brand').trim(),gold:s.getPropertyValue('--gold').trim(),dark:root.dataset.theme!=='light'};}
   let colors=palette();
