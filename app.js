@@ -26,10 +26,15 @@
     [/문헌/g, 'literature'], [/해석/g, 'interpretation'], [/저장|보관/g, 'archive'],
     [/복구/g, 'troubleshooting'],
     [/입자/g, 'particles'], [/파동/g, 'wave'],
+    [/파이프라인/g, 'pipeline'], [/에이전트/g, 'agent'],
   ];
   const normalizeSearch = text => searchTerms.reduce((value, [pattern, term]) => value.replace(pattern, term), text.toLocaleLowerCase());
   const chapters = [...document.querySelectorAll('.chapter')];
-  const searchIndex = new Map(chapters.map(section => [section, normalizeSearch(section.textContent)]));
+  const searchIndex = new Map(chapters.map(section => {
+    const copy = section.cloneNode(true);
+    copy.querySelectorAll('style,script').forEach(node => node.remove());
+    return [section, normalizeSearch(copy.textContent)];
+  }));
   const detailsIndex = new Map([...document.querySelectorAll('details')].map(detail => [detail, normalizeSearch(detail.textContent)]));
   const search = $('#search');
   const rail = $('#manual-rail'), menu = $('#menu-toggle'), backdrop = $('.menu-backdrop');
@@ -152,6 +157,19 @@
   }
   window.addEventListener('beforeprint',beforePrint);window.addEventListener('afterprint',afterPrint);
   $('#print').addEventListener('click',()=>{beforePrint();window.print();});
+
+  const pipeline = $('#pipeline-svg'), downloadPipeline = $('#download-pipeline');
+  if (pipeline && downloadPipeline) {
+    downloadPipeline.hidden = false;
+    downloadPipeline.addEventListener('click', () => {
+      const copy = pipeline.cloneNode(true), palette = getComputedStyle(root);
+      ['--bg','--panel','--line','--ink','--muted','--brand','--gold'].forEach(name => copy.style.setProperty(name, palette.getPropertyValue(name)));
+      const blob = new Blob([new XMLSerializer().serializeToString(copy)], {type:'image/svg+xml;charset=utf-8'});
+      const url = URL.createObjectURL(blob), link = document.createElement('a');
+      link.href = url; link.download = 'space-simulator-research-pipeline.svg'; link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+  }
 
   // A fixed-seed conceptual illustration, deliberately independent of research outputs.
   const canvas=$('#cosmos'),stage=$('.cosmos-stage'),ctx=canvas.getContext('2d');

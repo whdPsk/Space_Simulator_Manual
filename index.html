@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071224">
-  <meta name="manual-version" content="2.1.1">
-  <meta name="manual-updated" content="2026-10-12T01:11:00+09:00">
+  <meta name="manual-version" content="2.1.2">
+  <meta name="manual-updated" content="2026-10-12T01:23:00+09:00">
   <meta name="description" content="우주론 시뮬레이터 연구 시스템: GPU 실험, 두 에이전트 해석, Codex Cloud, 결과 보관과 재현 가이드">
   <title>Cosmology Research Notes · Space Simulator</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071224'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' transform='rotate(-35 16 16)' fill='none' stroke='%237fe0f2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e6c277'/%3E%3C/svg%3E">
   <script>try{const t=localStorage.getItem('research.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
-  <link rel="stylesheet" href="style.css?v=2.1.1">
-  <script defer src="app.js?v=2.1.1"></script>
+  <link rel="stylesheet" href="style.css?v=2.1.2">
+  <script defer src="app.js?v=2.1.2"></script>
 </head>
 <body>
 <a class="skip" href="#main" lang="en">Skip to Content</a>
@@ -35,10 +35,10 @@
     <a href="#recovery">09 <span>Troubleshooting</span></a>
     <a href="#git">10 <span>Reproducibility</span></a>
   </nav>
-  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.1.1</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
+  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.1.2</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
 </aside>
 <main id="main">
-  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.1.1</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T01:11:00+09:00">2026.10.12 01:11 KST</time></span></header>
+  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.1.2</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T01:23:00+09:00">2026.10.12 01:23 KST</time></span></header>
   <section id="overview" class="chapter">
     <div class="hero-layout">
       <div class="hero-copy"><p class="hero-kicker">Exploring the Universe through Computation</p><h1 lang="en">Cosmology<br>Research Notes</h1><p class="lead">암흑물질이 파동처럼 행동하면<br>어떤 우주가 만들어질까?</p><p class="hero-description">질문을 실험으로, 결과를 다음 질문으로. GPU와 두 AI 에이전트로 탐구하며 근거를 남기는 연구실의 사용 안내서.</p><a class="primary-link" href="#start">Start Exploring <span aria-hidden="true">↗</span></a></div>
@@ -76,6 +76,121 @@ python -m venv .venv
   </section>
   <section id="workflow" class="chapter">
     <div class="section-label">Chapter 03</div><h2 lang="en">Research Workflow</h2>
+    <figure class="pipeline-figure" id="agent-pipeline">
+      <div class="pipeline-heading" lang="en"><div><span class="section-label">Current Implementation</span><h3>Agent Collaboration Map</h3></div><button type="button" id="download-pipeline" hidden>Download SVG</button></div>
+      <p class="pipeline-intro">기존 연결도를 현재 구현 기준으로 정리했습니다. 아래 AI 왕복 경로는 <code>local</code> 모드에서 작동하며, <code>offline</code> 모드는 수치 분석까지만 수행합니다.</p>
+      <p class="pipeline-scroll-hint" lang="en">Scroll horizontally to explore the full diagram.</p>
+      <div class="pipeline-viewport" tabindex="0" role="region" aria-label="Agent collaboration diagram · Scroll horizontally" lang="en">
+        <svg id="pipeline-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 885" role="img" aria-labelledby="pipeline-title pipeline-desc" lang="en">
+          <title id="pipeline-title">Current cosmology research pipeline and agent roles</title>
+          <desc id="pipeline-desc">A local controller runs a bounded Windows GPU suite and verifies the evidence. Claude Code researches public literature and interprets the evidence. Codex CLI independently reviews the draft. A revise decision can trigger up to two Claude correction and Codex review rounds. Reports and next experiment designs are saved; a new GPU campaign requires a separate policy review. Optional Drive archival verifies local copies, with remote integrity checked separately. Cowork and Notion use separate manual handoffs. Codex Cloud is a separate CPU validation and review workflow: the app route was verified, while CLI dispatch remains unverified.</desc>
+          <style>
+            #pipeline-svg{font-family:Arial,"Noto Sans KR",sans-serif}
+            #pipeline-svg .p-bg{fill:var(--bg,#071224)}
+            #pipeline-svg .p-card{fill:var(--panel,#0e1d36);stroke:var(--line,#2a3f66);stroke-width:1.5}
+            #pipeline-svg .p-agent{stroke:var(--brand,#7fe0f2)}
+            #pipeline-svg .p-manual{stroke:var(--gold,#e6c277);stroke-dasharray:6 5}
+            #pipeline-svg .p-title{fill:var(--ink,#e4ecf7);font-size:24px;font-weight:700}
+            #pipeline-svg .p-body{fill:var(--muted,#a3b5d0);font-size:18px}
+            #pipeline-svg .p-label{fill:var(--brand,#7fe0f2);font-size:15px;letter-spacing:1.3px;font-weight:700}
+            #pipeline-svg .p-gold{fill:var(--gold,#e6c277)}
+            #pipeline-svg .p-line{fill:none;stroke:var(--brand,#7fe0f2);stroke-width:2;marker-end:url(#pipeline-arrow)}
+            #pipeline-svg .p-handoff{fill:none;stroke:var(--gold,#e6c277);stroke-width:2;stroke-dasharray:6 5;marker-end:url(#pipeline-manual-arrow)}
+          </style>
+          <defs>
+            <marker id="pipeline-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="var(--brand,#7fe0f2)"/></marker>
+            <marker id="pipeline-manual-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="var(--gold,#e6c277)"/></marker>
+          </defs>
+          <rect class="p-bg" width="1120" height="885" rx="12"/>
+          <text class="p-label" x="30" y="48">01 / COMPUTE &amp; EVIDENCE</text>
+          <path class="p-line" d="M330 154H407"/>
+          <path class="p-line" d="M710 154H787"/>
+          <path class="p-line" d="M940 218V307"/>
+          <g>
+            <rect class="p-card" x="30" y="90" width="300" height="128" rx="8"/>
+            <text class="p-label" x="50" y="120">CONTROL</text>
+            <text class="p-title" x="50" y="152">Local Controller</text>
+            <text class="p-body" x="50" y="181">Question · policy · budget</text>
+            <text class="p-body" x="50" y="204">Pinned source · GPU lock</text>
+          </g>
+          <g>
+            <rect class="p-card" x="410" y="90" width="300" height="128" rx="8"/>
+            <text class="p-label" x="430" y="120">SIMULATION</text>
+            <text class="p-title" x="430" y="152">Windows GPU</text>
+            <text class="p-body" x="430" y="181">Smoke → spatial → temporal</text>
+            <text class="p-body" x="430" y="204">Bounded experiment suite</text>
+          </g>
+          <g>
+            <rect class="p-card" x="790" y="90" width="300" height="128" rx="8"/>
+            <text class="p-label" x="810" y="120">VERIFICATION</text>
+            <text class="p-title" x="810" y="152">Evidence Package</text>
+            <text class="p-body" x="810" y="181">Checksums · diagnostics</text>
+            <text class="p-body" x="810" y="204">Numerical verdicts + IDs</text>
+          </g>
+          <text class="p-label" x="30" y="270">02 / INTERPRETATION &amp; REVIEW</text>
+          <path class="p-line" d="M790 389H713"/>
+          <path class="p-line" d="M410 389H333"/>
+          <path class="p-line" d="M560 470V520H940V473"/>
+          <text class="p-body" x="750" y="503" text-anchor="middle">Revise &amp; re-review · max 2 rounds</text>
+          <g>
+            <rect class="p-card p-agent" x="790" y="310" width="300" height="160" rx="8"/>
+            <text class="p-label" x="810" y="342">RESEARCH AGENT / WSL</text>
+            <text class="p-title" x="810" y="377">Claude Code</text>
+            <text class="p-body" x="810" y="407">Literature search + reading</text>
+            <text class="p-body" x="810" y="432">Physics · intuition · hypotheses</text>
+            <text class="p-body" x="810" y="457">Evidence-linked draft</text>
+          </g>
+          <g>
+            <rect class="p-card p-agent" x="410" y="310" width="300" height="160" rx="8"/>
+            <text class="p-label" x="430" y="342">REVIEW AGENT / LOCAL</text>
+            <text class="p-title" x="430" y="377">Codex CLI</text>
+            <text class="p-body" x="430" y="407">Independent interpretation</text>
+            <text class="p-body" x="430" y="432">Numbers · sources · claims</text>
+            <text class="p-body" x="430" y="457">Accept / revise + feedback</text>
+          </g>
+          <g>
+            <rect class="p-card" x="30" y="310" width="300" height="160" rx="8"/>
+            <text class="p-label" x="50" y="342">SAVE &amp; PLAN</text>
+            <text class="p-title" x="50" y="377">Research Outputs</text>
+            <text class="p-body" x="50" y="407">Report · review · next design</text>
+            <text class="p-body" x="50" y="432">Final review status preserved</text>
+            <text class="p-body" x="50" y="457">New run: policy review first</text>
+          </g>
+          <path class="p-line" d="M180 470V577"/>
+          <path class="p-handoff" d="M330 445H365V550H560V577"/>
+          <path class="p-line" d="M1090 644H1106V410H1093"/>
+          <g>
+            <rect class="p-card" x="30" y="580" width="300" height="130" rx="8"/>
+            <text class="p-label" x="50" y="610">OPTIONAL ARCHIVE</text>
+            <text class="p-title" x="50" y="642">Google Drive</text>
+            <text class="p-body" x="50" y="669">Raw data + reports · ZIP + sync</text>
+            <text class="p-body" x="50" y="695">Remote integrity: separate check</text>
+          </g>
+          <g>
+            <rect class="p-card p-manual" x="410" y="580" width="300" height="130" rx="8"/>
+            <text class="p-label p-gold" x="430" y="610">SEPARATE HANDOFF</text>
+            <text class="p-title" x="430" y="642">Cowork / Notion</text>
+            <text class="p-body" x="430" y="669">Notes · presentations · ledger</text>
+            <text class="p-body" x="430" y="695">No automatic memory sharing</text>
+          </g>
+          <g>
+            <rect class="p-card" x="790" y="580" width="300" height="130" rx="8"/>
+            <text class="p-label" x="810" y="610">REFERENCE MATERIAL</text>
+            <text class="p-title" x="810" y="642">Public Literature</text>
+            <text class="p-body" x="810" y="669">Papers · author materials</text>
+            <text class="p-body" x="810" y="695">Opened sources + citations</text>
+          </g>
+          <g>
+            <rect class="p-card p-manual" x="30" y="750" width="1060" height="105" rx="8"/>
+            <text class="p-title" x="50" y="783">Codex Cloud</text>
+            <text class="p-label p-gold" x="1068" y="781" text-anchor="end">SEPARATE CPU WORKFLOW</text>
+            <text class="p-body" x="50" y="815">GitHub source → Cloud task → CPU tests &amp; review</text>
+            <text class="p-body" x="50" y="841">App route verified · CLI dispatch still unverified · GPU execution remains local</text>
+          </g>
+        </svg>
+      </div>
+      <figcaption><span lang="en">Solid lines: local workflow &amp; data flow · Dashed lines: separate handoff</span><small>다음 실험은 설계안으로 저장합니다. 새 GPU 실행은 실행 정책 확인 후 시작하며, 검토 통과는 물리적 수렴 판정을 대신하지 않습니다.</small></figcaption>
+    </figure>
     <ol class="flow">
       <li><strong>Experiment Design</strong><span>Question · Model · Seed · Grid · Compute Budget</span></li>
       <li><strong>GPU Validation &amp; Execution</strong><span>16³ smoke → 256³ smoke → spatial &amp; temporal runs</span></li>
@@ -201,12 +316,13 @@ git push origin main</code></pre>
   <section id="release" class="chapter release-notes">
     <div class="section-label">Document History</div><h2 lang="en">Release Notes</h2>
     <p>이 버전은 웹 매뉴얼의 버전입니다. 시뮬레이터 코드와 실험 결과는 각자의 commit·tag·manifest를 기준으로 확인합니다.</p>
-    <article class="release-entry"><div><strong data-manual-version>v2.1.1</strong><time data-manual-updated datetime="2026-10-12T01:11:00+09:00">2026.10.12 01:11 KST</time></div><ul><li>메뉴·제목·버튼·표 항목을 영어 표기로 통일하고 한국어 설명문 유지</li><li>seed, grid, checkpoint, power spectrum 등 기술 용어 표기 정리</li><li>한국어·영어 기술 용어 검색 지원 및 긴 영어 제목의 모바일 배치 조정</li></ul></article>
+    <article class="release-entry"><div><strong data-manual-version>v2.1.2</strong><time data-manual-updated datetime="2026-10-12T01:23:00+09:00">2026.10.12 01:23 KST</time></div><ul><li>현재 구현 기준 Agent Collaboration Map 추가</li><li>Claude–Codex 수정 루프, GPU 계산, Drive 보관과 별도 Cloud 경로 시각화</li><li>테마에 맞는 SVG 다운로드, 모바일 가로 탐색과 인쇄 지원</li></ul></article>
+    <article class="release-entry"><div><strong>v2.1.1</strong><time datetime="2026-10-12T01:11:00+09:00">2026.10.12 01:11 KST</time></div><ul><li>메뉴·제목·버튼·표 항목을 영어 표기로 통일하고 한국어 설명문 유지</li><li>seed, grid, checkpoint, power spectrum 등 기술 용어 표기 정리</li><li>한국어·영어 기술 용어 검색 지원 및 긴 영어 제목의 모바일 배치 조정</li></ul></article>
     <article class="release-entry"><div><strong>v2.1.0</strong><time datetime="2026-10-12T00:56:00+09:00">2026.10.12 00:56 KST</time></div><ul><li>관측 일지에서 착안한 디자인과 입자·파동 개념 시각화</li><li>매뉴얼 버전과 한국시간 기준 최근 업데이트 일시 표시</li><li>모바일 목차, 문서 검색, 명령 복사, 밝은 테마와 인쇄 화면 개선</li></ul></article>
     <p class="release-method">Last Updated는 페이지를 연 시각이 아니라 이 릴리스의 문서 갱신 시각입니다.</p>
   </section>
   <div id="no-results" hidden><h2 lang="en">No Results Found</h2><p>다른 검색어를 입력하거나 전체 목차를 열어 보세요.</p><button type="button" id="clear-search">Clear Search</button></div>
-  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.1.1</span><button id="print" type="button">Print / Save PDF</button></div></footer>
+  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.1.2</span><button id="print" type="button">Print / Save PDF</button></div></footer>
 </main>
 </body>
 </html>
