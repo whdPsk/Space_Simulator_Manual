@@ -132,6 +132,7 @@ python -m venv .venv
     <pre><code># 완료된 개별 결과를 나중에 추가 보관
 .\.venv\Scripts\python.exe -m automation.archive "outputs\automation\분석ID" --drive-root "G:\내 드라이브\project\Space Simulation\Research_Archive"</code></pre>
     <div class="status-line"><span class="state">local_copy_verified_remote_pending</span><p>Drive 폴더에 쓴 바이트 검증 완료. Google 서버 보관 확인은 아직입니다.</p></div>
+    <div class="status-line"><span class="state">remote_present_integrity_pending</span><p>서버의 파일 이름·크기·위치는 확인했습니다. 연결 도구가 원격 체크섬을 제공하지 않아 내용 대조는 미완료입니다.</p></div>
     <div class="status-line"><span class="state">remote_verified</span><p>Drive API로 원격 파일의 크기와 MD5를 대조한 기록이 있습니다.</p></div>
     <p>Drive 앱이 오프라인이거나 동기화가 멈추면 업로드는 대기합니다. 서버 검증은 별도 API 메타데이터 확인 단계이며 로컬 복사만으로 완료라고 표시하지 않습니다. 중단된 <code>.partial</code> 파일은 완료본으로 사용하지 말고 새 보관 실행을 생성하세요.</p>
   </section>
