@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#071224">
-  <meta name="manual-version" content="2.3.1">
-  <meta name="manual-updated" content="2026-10-12T04:04:00+09:00">
+  <meta name="manual-version" content="2.4.0">
+  <meta name="manual-updated" content="2026-10-12T10:41:00+09:00">
   <meta name="description" content="우주론 시뮬레이터 연구 시스템: GPU 실험, 두 에이전트 해석, Codex Cloud, 결과 보관과 재현 가이드">
   <title>Cosmology Research Notes · Space Simulator</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071224'/%3E%3Cellipse cx='16' cy='16' rx='13' ry='6' transform='rotate(-35 16 16)' fill='none' stroke='%237fe0f2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23e6c277'/%3E%3C/svg%3E">
   <script>try{const t=localStorage.getItem('research.theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
-  <link rel="stylesheet" href="style.css?v=2.3.1">
-  <script defer src="app.js?v=2.3.1"></script>
+  <link rel="stylesheet" href="style.css?v=2.4.0">
+  <script defer src="app.js?v=2.4.0"></script>
 </head>
 <body>
 <a class="skip" href="#main" lang="en">Skip to Content</a>
@@ -35,10 +35,10 @@
     <a href="#recovery">09 <span>Troubleshooting</span></a>
     <a href="#git">10 <span>Reproducibility</span></a>
   </nav>
-  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.3.1</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
+  <div class="rail-bottom"><a class="rail-version" href="#release">Handbook <strong data-manual-version>v2.4.0</strong><span>Release Notes</span></a><button id="theme" type="button">Light Mode</button><a href="https://github.com/whdPsk/Space_Simulator">Source Repository <span aria-hidden="true">↗</span></a><small>Private repository · Access required</small></div>
 </aside>
 <main id="main">
-  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.3.1</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T04:04:00+09:00">2026.10.12 04:04 KST</time></span></header>
+  <header class="topbar" lang="en"><span>Research Handbook <a href="#release" data-manual-version>v2.4.0</a></span><span>Last Updated <time data-manual-updated datetime="2026-10-12T10:41:00+09:00">2026.10.12 10:41 KST</time></span></header>
   <section id="overview" class="chapter">
     <div class="hero-layout">
       <div class="hero-copy"><p class="hero-kicker">Exploring the Universe through Computation</p><h1 lang="en">Cosmology<br>Research Notes</h1><p class="lead">암흑물질이 파동처럼 행동하면<br>어떤 우주가 만들어질까?</p><p class="hero-description">질문을 실험으로, 결과를 다음 질문으로. GPU와 두 AI 에이전트로 탐구하며 근거를 남기는 연구실의 사용 안내서.</p><a class="primary-link" href="#start">Start Exploring <span aria-hidden="true">↗</span></a></div>
@@ -127,8 +127,8 @@ python -m venv .venv
             <rect class="p-card" x="790" y="90" width="300" height="128" rx="8"/>
             <text class="p-label" x="810" y="120">VERIFICATION</text>
             <text class="p-title" x="810" y="152">Evidence Package</text>
-            <text class="p-body" x="810" y="181">Checksums · diagnostics</text>
-            <text class="p-body" x="810" y="204">Numerical verdicts + IDs</text>
+            <text class="p-body" x="810" y="181">Numerics · yt common analysis</text>
+            <text class="p-body" x="810" y="204">ENZO kernel receipt · scope limits</text>
           </g>
           <text class="p-label" x="30" y="270">02 / INTERPRETATION &amp; REVIEW</text>
           <path class="p-line" d="M790 389H713"/>
@@ -141,7 +141,7 @@ python -m venv .venv
             <text class="p-title" x="810" y="377">Claude Code</text>
             <text class="p-body" x="810" y="407">Literature search + reading</text>
             <text class="p-body" x="810" y="432">Physics · intuition · hypotheses</text>
-            <text class="p-body" x="810" y="457">Evidence-linked draft</text>
+            <text class="p-body" x="810" y="457">Claims · sources · applicability</text>
           </g>
           <g>
             <rect class="p-card p-agent" x="410" y="310" width="300" height="160" rx="8"/>
@@ -156,7 +156,7 @@ python -m venv .venv
             <text class="p-label" x="50" y="342">SAVE &amp; PLAN</text>
             <text class="p-title" x="50" y="377">Research Outputs</text>
             <text class="p-body" x="50" y="407">Report · review · next design</text>
-            <text class="p-body" x="50" y="432">Final review status preserved</text>
+            <text class="p-body" x="50" y="432">Source matrix · common plots</text>
             <text class="p-body" x="50" y="457">Next run waits for Start</text>
           </g>
           <path class="p-line" d="M180 470V577"/>
@@ -198,6 +198,7 @@ python -m venv .venv
       <li><strong>Experiment Design</strong><span>Question · Model · Seed · Grid · Compute Budget</span></li>
       <li><strong>GPU Validation &amp; Execution</strong><span>Start → 16³ smoke → 256³ smoke → queued experiment</span></li>
       <li><strong>Numerical Analysis</strong><span>Hash · Mass · Phase · Initial Representation · Power Difference</span></li>
+      <li><strong>External Comparison &amp; Common Analysis</strong><span>ENZO gravity benchmark receipt · yt field / projection check · shared plots</span></li>
       <li><strong>Claude Interpretation</strong><span>공개 논문 검색·열람 → 물리 가설과 직관 설명</span></li>
       <li><strong>Codex Review</strong><span>독립 해석 → 오류 지적 → 최대 2회 수정</span></li>
       <li><strong>Archive &amp; Next Experiments</strong><span>보고서 · 다음 실험안 · Drive 보관 · 코드 이력</span></li>
@@ -226,6 +227,16 @@ python -m venv .venv
   </section>
   <section id="interpret" class="chapter">
     <div class="section-label">Chapter 05</div><h2 lang="en">Interpretation &amp; Literature</h2>
+    <h3 id="validation-layers" lang="en">Three Validation Layers</h3>
+    <p>기존 분석에 문헌 근거, 외부 코드 비교, 공통 분석이 연결됩니다. Start 전에 분석 환경과 등록된 외부 비교 기록을 검사하고, 실험 결과를 읽은 뒤 세 계층을 보고서에 함께 표시합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th lang="en">Layer</th><th lang="en">Automated Step</th><th lang="en">Scope</th></tr></thead><tbody>
+      <tr><td>Literature Evidence</td><td>Method-paper catalog → 원문 열람 → Claim-to-source matrix</td><td>주장별 E ID · 절/식 위치 · 적용 범위 · 한계</td></tr>
+      <tr><td>External Comparison</td><td>고정된 ENZO 32³ 중력 CPU benchmark의 영수증·소스·산출물 hash 재검사</td><td>Periodic Poisson kernel. 전체 우주론·FDM 진화 비교는 아님</td></tr>
+      <tr><td>Common Analysis</td><td>yt field mapping · projection 대조 · 같은 규약의 지도와 P(k)</td><td>저장 밀도장의 분석 일관성. 기존 정밀도·수렴 판정을 대체하지 않음</td></tr>
+    </tbody></table></div>
+    <p>Common Analysis는 같은 실행의 latest common redshift에서 cold/wave 밀도를 선택하고, 공통 색 범위의 full-depth projection과 동일 FFT 규약의 power spectrum을 만듭니다. float32 저장 밀도에서 다시 계산하며 CIC 역보정은 적용하지 않습니다. 원래 float64 파워 측정과 구분해서 읽으세요.</p>
+    <p>ENZO 비교는 검증된 CPU benchmark를 재사용합니다. 관련 소스나 결과 파일이 바뀌면 통과 기록을 재사용하지 않고 중단합니다. 등록되지 않은 설치는 <code>not_configured</code>로 표시합니다. MUSIC은 향후 matched initial conditions 설계용 문헌이며 아직 실행기에 연결하지 않았습니다.</p>
+    <details><summary lang="en">Public Method Papers</summary><p><a href="https://arxiv.org/abs/1307.2265">ENZO · Bryan et al.</a> · <a href="https://arxiv.org/abs/1011.3514">yt · Turk et al.</a> · <a href="https://arxiv.org/abs/1103.6031">MUSIC · Hahn &amp; Abel</a> · <a href="https://arxiv.org/abs/1308.2669">AGORA · Kim et al.</a></p><p>문헌 목록은 검색 출발점입니다. 인용할 원문은 각 분석에서 다시 열고 적용 범위를 검토합니다. AGORA는 공개 논문의 비교 방법론만 참고하며 비공개 IC나 협업 자료는 사용하지 않습니다.</p></details>
     <p>외부 AI 전송을 승인한 분석에서 <code>local</code> 모드를 선택하면, 작은 수치 요약과 근거 ID를 Claude Code에 보내 논문 조사와 해석을 요청합니다. Codex가 수치·문헌·가설·비유를 검토하고, 필요한 경우 최대 두 번 수정합니다.</p>
     <pre><code># 이미 만들어진 suite_summary.json을 해석
 .\.venv\Scripts\python.exe -m automation.research "outputs\campaigns\작업ID\analysis\suite_summary.json" --mode local --max-revisions 2 --config automation/config.local.json</code></pre>
@@ -235,6 +246,9 @@ python -m venv .venv
       <tr><td><code>evidence.json</code></td><td>주장이 실제 어떤 수치와 연결되는지 확인</td></tr>
       <tr><td><code>interpretation.json</code></td><td>관측 사실 / 물리 가설 / 직관적 비유 구분</td></tr>
       <tr><td><code>review.json</code></td><td>Codex 독립 해석과 accept / revise 이유</td></tr>
+      <tr><td><code>reference_matrix.json / .md</code></td><td>주장과 실제 열람 문헌·위치·적용 범위 연결</td></tr>
+      <tr><td><code>external_comparison.json</code></td><td>ENZO benchmark의 판정·적용 한계·재현 영수증</td></tr>
+      <tr><td><code>common/common_analysis.json / .png</code></td><td>yt 대조 수치와 공통 projection / power spectrum 그림</td></tr>
       <tr><td><code>next_experiments.json</code></td><td>예측·반증 검사·사전 판정 기준이 있는 다음 설계</td></tr>
     </tbody></table></div>
     <p><strong>accept는 해석 초안의 검토 통과입니다.</strong> 물리적 수렴이나 관측 예측의 검증 완료를 뜻하지 않습니다. 수정 예산을 다 쓰면 <code>revision_required</code>를 남기고 멈춥니다.</p>
@@ -254,6 +268,7 @@ python -m venv .venv
    │  ├─ temporal256/       256³ temporal control
    │  └─ analysis/          Comparison JSON, figures & reports
    ├─ automation/분석ID/     AI interpretation, review & references
+   ├─ external_validation/  ENZO CPU benchmark, raw data & receipts
    ├─ cloud/                Cloud requests & task IDs
    ├─ cloud_collections/    Cloud responses & review diffs
    └─ archives/             Inventory, checksums & receipts</code></pre>
@@ -325,7 +340,8 @@ git push origin main</code></pre>
   <section id="release" class="chapter release-notes">
     <div class="section-label">Document History</div><h2 lang="en">Release Notes</h2>
     <p>이 버전은 웹 매뉴얼의 버전입니다. 시뮬레이터 코드와 실험 결과는 각자의 commit·tag·manifest를 기준으로 확인합니다.</p>
-    <article class="release-entry"><div><strong data-manual-version>v2.3.1</strong><time data-manual-updated datetime="2026-10-12T04:04:00+09:00">2026.10.12 04:04 KST</time></div><ul><li>개인 기기에서 최대 90일 로그인 유지</li><li>기존 로그인은 키 재입력 없이 버튼 한 번으로 연장</li><li>유효한 로그인으로 접속하면 콘솔로 바로 이동</li></ul></article>
+    <article class="release-entry"><div><strong data-manual-version>v2.4.0</strong><time data-manual-updated datetime="2026-10-12T10:41:00+09:00">2026.10.12 10:41 KST</time></div><ul><li>Literature Evidence: 원문 감사와 주장별 근거 표</li><li>External Comparison: ENZO CPU gravity benchmark와 재사용 검증</li><li>Common Analysis: yt 대조·공통 그림·명시적 단위 규약</li><li>Start 사전 점검과 Agent Collaboration Map 갱신</li></ul></article>
+    <article class="release-entry"><div><strong>v2.3.1</strong><time datetime="2026-10-12T04:04:00+09:00">2026.10.12 04:04 KST</time></div><ul><li>개인 기기에서 최대 90일 로그인 유지</li><li>기존 로그인은 키 재입력 없이 버튼 한 번으로 연장</li><li>유효한 로그인으로 접속하면 콘솔로 바로 이동</li></ul></article>
     <article class="release-entry"><div><strong>v2.3.0</strong><time datetime="2026-10-12T03:26:00+09:00">2026.10.12 03:26 KST</time></div><ul><li>Cosmos: 짧은 /manual · /start 주소와 휴대폰 접속</li><li>전용 키 로그인, 노트북 연결 상태와 일회 Start 요청</li><li>기존 결과 1481개 원격 복구 ZIP 검증 후 Drive 이전 완료</li><li>원자료·보고서는 Drive, 제어 상태만 원격 콘솔에 표시</li></ul></article>
     <article class="release-entry"><div><strong>v2.2.0</strong><time datetime="2026-10-12T02:27:00+09:00">2026.10.12 02:27 KST</time></div><ul><li>Mission Control: 자동 실험 대기열과 사용자 Start 버튼</li><li>Drive 직접 저장·검증 후 기존 결과 이전 절차 안내</li><li>현재 실행 정책에 맞춘 Agent Collaboration Map과 복구 안내 갱신</li></ul></article>
     <article class="release-entry"><div><strong>v2.1.2</strong><time datetime="2026-10-12T01:23:00+09:00">2026.10.12 01:23 KST</time></div><ul><li>현재 구현 기준 Agent Collaboration Map 추가</li><li>Claude–Codex 수정 루프, GPU 계산, Drive 보관과 별도 Cloud 경로 시각화</li><li>테마에 맞는 SVG 다운로드, 모바일 가로 탐색과 인쇄 지원</li></ul></article>
@@ -334,7 +350,7 @@ git push origin main</code></pre>
     <p class="release-method">Last Updated는 페이지를 연 시각이 아니라 이 릴리스의 문서 갱신 시각입니다.</p>
   </section>
   <div id="no-results" hidden><h2 lang="en">No Results Found</h2><p>다른 검색어를 입력하거나 전체 목차를 열어 보세요.</p><button type="button" id="clear-search">Clear Search</button></div>
-  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.3.1</span><button id="print" type="button">Print / Save PDF</button></div></footer>
+  <footer><span class="footer-motto">근거를 보존하고,<br>주장의 범위를 분명하게.</span><div>Space Simulator <span data-manual-version>v2.4.0</span><button id="print" type="button">Print / Save PDF</button></div></footer>
 </main>
 </body>
 </html>
